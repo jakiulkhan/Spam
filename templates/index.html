@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SMS Spam Classifier</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="card">
+    <h1>SMS Spam Classifier</h1>
+    <p class="sub">Powered by TF-IDF + Linear SVM</p>
+
+    <form method="POST">
+      <textarea name="message" rows="5" placeholder="Paste an SMS message…">{{ text }}</textarea>
+      <button type="submit">Classify</button>
+    </form>
+
+    {% if result %}
+      <div class="result {{ result.label|lower }}">
+        <strong>{{ result.label }}</strong>
+        {% if result.confidence is not none %}
+          <span class="conf">confidence: {{ '%.2f'|format(result.confidence) }}</span>
+        {% endif %}
+        <p class="cleaned">Cleaned: <em>{{ result.cleaned }}</em></p>
+      </div>
+    {% endif %}
+
+    <footer>POST JSON to <code>/api/predict</code> with <code>{"message": "..."}</code></footer>
+  </main>
+</body>
+</html>
